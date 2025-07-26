@@ -43,12 +43,12 @@
   ignore_errors: yes
   tags: [etcd, etcd_svc, etcd_stop]
   shell: |
-    systemctl disable etcd
-    systemctl stop etcd
+    systemctl disable {{ etcd_systemd_name }}
+    systemctl stop {{ etcd_systemd_name }}
     
     # try graceful shutdown first again
     if ps -u etcd -o command | grep -q 'etcd' ; then
-        systemctl stop etcd
+        systemctl stop {{ etcd_systemd_name }}
     fi
     
     # kill if still exists
@@ -75,10 +75,9 @@
   ignore_errors: yes
   file: path={{ item }} state=absent
   with_items:
-    - "/etc/etcd"
-    - "/var/lib/etcd"
+    - "{{ etcd_config_dir }}"
     - "{{ etcd_data }}"
-    - "/etc/profile.d/etcd.sh"
+    - "/etc/profile.d/etcdctl.sh"
 
 #--------------------------------------------------------------#
 # Uninstall etcd packages                             [etcd_pkg]

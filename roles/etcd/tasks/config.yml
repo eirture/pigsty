@@ -13,8 +13,8 @@
       become: yes
       template: src={{ item.src }} dest={{ item.dest }} owner={{ item.owner }} group={{ item.group|default(item.owner) }} mode={{ item.mode }}
       with_items:
-        - { src: "etcd.conf"     ,dest: "/etc/etcd/etcd.conf"            ,owner: "etcd", group: "etcd" ,mode: "0644" }
-        - { src: "etcd.service"  ,dest: "{{ systemd_dir }}/etcd.service" ,owner: "root", group: "root" ,mode: "0644" }
+        - { src: "etcd.conf"     ,dest: "{{ etcd_config_dir }}/etcd.conf"            ,owner: "etcd", group: "etcd" ,mode: "0644" }
+        - { src: "etcd.service"  ,dest: "{{ systemd_dir }}/{{ etcd_systemd_name }}.service" ,owner: "root", group: "root" ,mode: "0644" }
         - { src: "etcdctl.sh"    ,dest: "/etc/profile.d/etcdctl.sh"      ,owner: "etcd", group: "etcd" ,mode: "0755" }
 
 #--------------------------------------------------------------#
@@ -67,8 +67,8 @@
   become: yes
   copy: src={{ item.src }} dest={{ item.dest }} owner={{ item.owner }} group={{ item.group|default(item.owner) }} mode={{ item.mode }}
   with_items:
-    - { src: "files/pki/ca/ca.crt"                    ,dest: "/etc/etcd/ca.crt"     ,owner: "etcd", group: "etcd" ,mode: "0644" }
-    - { src: "files/pki/etcd/{{ etcd_instance }}.crt" ,dest: "/etc/etcd/server.crt" ,owner: "etcd", group: "etcd" ,mode: "0644" }
-    - { src: "files/pki/etcd/{{ etcd_instance }}.key" ,dest: "/etc/etcd/server.key" ,owner: "etcd", group: "etcd" ,mode: "0600" }
+    - { src: "files/pki/ca/ca.crt"                    ,dest: "{{ etcd_config_dir }}/ca.crt"     ,owner: "etcd", group: "etcd" ,mode: "0644" }
+    - { src: "files/pki/etcd/{{ etcd_instance }}.crt" ,dest: "{{ etcd_config_dir }}/server.crt" ,owner: "etcd", group: "etcd" ,mode: "0644" }
+    - { src: "files/pki/etcd/{{ etcd_instance }}.key" ,dest: "{{ etcd_config_dir }}/server.key" ,owner: "etcd", group: "etcd" ,mode: "0600" }
 
 ...

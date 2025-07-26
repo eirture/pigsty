@@ -7,6 +7,6 @@ export ETCDCTL_CACERT=/etc/pki/ca.crt
 export ETCDCTL_CERT=/etc/pki/infra.crt
 export ETCDCTL_KEY=/etc/pki/infra.key
 {% else %}
-export ETCDCTL_CERT=/etc/etcd/server.crt
-export ETCDCTL_KEY=/etc/etcd/server.key
+export ETCDCTL_CERT={{ etcd_config_dir }}/server.crt
+export ETCDCTL_KEY={{ etcd_config_dir }}/server.key
 {% endif %}
